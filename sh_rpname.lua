@@ -2,7 +2,7 @@ PLUGIN.name = "RPname command"
 PLUGIN.desc = "Just a simple RPname command, that changes YOUR nickname"
 
 ix.command.Add("RPname", {
-	description = "Меняет ваше имя",
+	description = "Changes your name",
 	adminOnly = false,
 	arguments = {
 		bit.bor(ix.type.text, ix.type.optional)
