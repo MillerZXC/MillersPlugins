@@ -30,11 +30,11 @@ if SERVER then
     util.AddNetworkString( "ChatAnimationStarted" )
     util.AddNetworkString( "ChatAnimationEnded" ) 
 
-    net.Receive( "ChatAnimationStarted", function(ply)
+    net.Receive( "ChatAnimationStarted", function(_, ply)
         CustomTypingAnimation(ply)
     end)
 
-    net.Receive( "ChatAnimationEnded", function(ply)
+    net.Receive( "ChatAnimationEnded", function(_, ply)
         CustomTypingAnimationEnd(ply)
     end)
 else
