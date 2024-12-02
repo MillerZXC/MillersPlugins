@@ -26,12 +26,35 @@ local function CustomTypingAnimationEnd(ply)
     end
 end
 
+if SERVER then
+    util.AddNetworkString( "ChatAnimationStarted" )
+    util.AddNetworkString( "ChatAnimationEnded" ) 
+
+    net.Receive( "ChatAnimationStarted", function()
+        local ply = net.ReadEntity()
+        CustomTypingAnimation(ply)
+    end)
+
+    net.Receive( "ChatAnimationEnded", function()
+        local ply = net.ReadEntity()
+        CustomTypingAnimationEnd(ply)
+    end)
+else
 hook.Add("StartChat", "CustomTypingAnimationStart", function(teamChat)
     local ply = LocalPlayer()
     CustomTypingAnimation(ply)
+
+    net.Start("ChatAnimationStarted")
+    net.WriteEntity(ply)
+    net.SendToServer()
 end)
 
 hook.Add("FinishChat", "CustomTypingAnimationFinish", function()
 	local ply = LocalPlayer()
 	CustomTypingAnimationEnd(ply)
+
+    net.Start("ChatAnimationEnded")
+    net.WriteEntity(ply)
+    net.SendToServer()
 end)
+end
