@@ -30,13 +30,11 @@ if SERVER then
     util.AddNetworkString( "ChatAnimationStarted" )
     util.AddNetworkString( "ChatAnimationEnded" ) 
 
-    net.Receive( "ChatAnimationStarted", function()
-        local ply = net.ReadEntity()
+    net.Receive( "ChatAnimationStarted", function(ply)
         CustomTypingAnimation(ply)
     end)
 
-    net.Receive( "ChatAnimationEnded", function()
-        local ply = net.ReadEntity()
+    net.Receive( "ChatAnimationEnded", function(ply)
         CustomTypingAnimationEnd(ply)
     end)
 else
@@ -45,7 +43,6 @@ hook.Add("StartChat", "CustomTypingAnimationStart", function(teamChat)
     CustomTypingAnimation(ply)
 
     net.Start("ChatAnimationStarted")
-    net.WriteEntity(ply)
     net.SendToServer()
 end)
 
@@ -54,7 +51,6 @@ hook.Add("FinishChat", "CustomTypingAnimationFinish", function()
 	CustomTypingAnimationEnd(ply)
 
     net.Start("ChatAnimationEnded")
-    net.WriteEntity(ply)
     net.SendToServer()
 end)
 end
